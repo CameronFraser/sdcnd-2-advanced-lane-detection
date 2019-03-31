@@ -3,7 +3,11 @@ from math import ceil
 import numpy as np
 
 def plot_images(images, columns, gray=False):
-    height, width, _ = images[0].shape
+    try:
+        height, width = images[0].shape
+    except:
+        height, width, _ = images[0].shape
+    
     fig_size = len(images) * 2
 
     fig = plt.figure(figsize=(fig_size, fig_size))
