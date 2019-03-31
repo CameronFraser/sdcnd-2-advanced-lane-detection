@@ -9,5 +9,4 @@ pattern_size = (8, 6)
 
 camera = Camera()
 camera.calibrate(calibration_images, pattern_size)
-camera.show_chessboards()
 
