@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from math import ceil
 import numpy as np
 
-def plot_images(images, columns):
+def plot_images(images, columns, gray=False):
     height, width, _ = images[0].shape
     fig_size = len(images) * 2
 
@@ -11,7 +11,10 @@ def plot_images(images, columns):
     
     for i in range(len(images)):
         fig.add_subplot(rows, columns, i+1)
-        plt.imshow(images[i])
+        if gray:
+            plt.imshow(images[i], cmap="gray")
+        else:
+            plt.imshow(images[i])
     plt.show()
 
 def plot_image(image):
