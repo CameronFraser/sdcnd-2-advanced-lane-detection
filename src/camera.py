@@ -41,3 +41,14 @@ class Camera:
         for img in images:
             undistorted_images.append(self.undistort_image(img))
         return undistorted_images
+
+    def transform_perspective(self, img, src, dst):
+        M = cv2.getPerspectiveTransform(src, dst)
+        try:
+            height, width = img.shape
+        except:
+            height, width, _ = img.shape
+
+        warped = cv2.warpPerspective(img, M, (width, height))
+
+        return warped, M
