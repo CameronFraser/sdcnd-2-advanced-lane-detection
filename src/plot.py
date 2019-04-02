@@ -22,6 +22,4 @@ def plot_images(images, columns, gray=False):
     plt.show()
 
 def plot_image(image):
-    plt.clf()
     plt.imshow(image)
-    plt.show()
