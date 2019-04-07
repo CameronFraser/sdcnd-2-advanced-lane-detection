@@ -2,24 +2,21 @@ import matplotlib.pyplot as plt
 from math import ceil
 import numpy as np
 
-def plot_images(images, columns, gray=False):
-    try:
-        height, width = images[0].shape
-    except:
-        height, width, _ = images[0].shape
-    
-    fig_size = len(images) * 2
-
-    fig = plt.figure(figsize=(fig_size, fig_size))
-    rows = ceil(len(images)/float(columns))
-    
-    for i in range(len(images)):
-        fig.add_subplot(rows, columns, i+1)
-        if gray:
-            plt.imshow(images[i], cmap="gray")
-        else:
-            plt.imshow(images[i])
+def plot_images(images, cols = 1, labels = None):
+    n_images = len(images)
+    if labels is None: labels = ['Image (%d)' % i for i in range(1,n_images + 1)]
+    fig = plt.figure()
+    for n, (image, label) in enumerate(zip(images, labels)):
+        a = fig.add_subplot(np.ceil(n_images/float(cols)), cols, n + 1)
+        if image.ndim == 2:
+            plt.gray()
+        plt.imshow(image)
+        a.set_title(label, fontsize=20)
+    fig.set_size_inches(np.array(fig.get_size_inches()) * n_images)
     plt.show()
 
-def plot_image(image):
-    plt.imshow(image)
+def plot_image(image, gray=False):
+    if gray:
+        plt.imshow(image, cmap="gray")
+    else:
+        plt.imshow(image)

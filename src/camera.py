@@ -25,7 +25,7 @@ class Camera:
                 self.img_points.append(corners)
                 self.obj_points.append(objp)
                 drawn_images.append(cv2.drawChessboardCorners(img, self.pattern_size, corners, ret))
-        ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(self.obj_points, self.img_points, img.shape[1::-1], None, None)
+        ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(self.obj_points, self.img_points, images[0].shape[1::-1], None, None)
         self.mtx = mtx
         self.dist = dist
         self.rvecs = rvecs
@@ -44,6 +44,7 @@ class Camera:
 
     def transform_perspective(self, img, src, dst):
         M = cv2.getPerspectiveTransform(src, dst)
+        M_inv = cv2.getPerspectiveTransform(dst, src)
         try:
             height, width = img.shape
         except:
@@ -51,4 +52,14 @@ class Camera:
 
         warped = cv2.warpPerspective(img, M, (width, height))
 
-        return warped, M
+        return warped, M, M_inv
+
+    def untransform_perspective(self, img, M_inv):
+        try:
+            height, width = img.shape
+        except:
+            height, width, _ = img.shape
+        
+        warped = cv2.warpPerspective(img, M_inv, (width, height))
+        
+        return warped
